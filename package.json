@@ -1,0 +1,48 @@
+{
+  "name": "ferrum",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "license": "MIT",
+  "author": "axelhamil",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/axelhamil/ferrum.git"
+  },
+  "bugs": {
+    "url": "https://github.com/axelhamil/ferrum/issues"
+  },
+  "homepage": "https://github.com/axelhamil/ferrum#readme",
+  "packageManager": "pnpm@10.26.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsdown",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "lint:fix": "biome check --fix ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.14",
+    "@vitest/coverage-v8": "^3.2.1",
+    "tsdown": "^0.12.5",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.1"
+  }
+}
