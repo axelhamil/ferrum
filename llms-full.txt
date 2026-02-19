@@ -1,0 +1,198 @@
+# Ferrum — Full API Reference
+
+> Rust's Option and Result primitives for TypeScript
+
+Version: 0.x | License: MIT | Node >= 20 | ESM only | Zero dependencies
+
+## Option<T>
+
+Represents an optional value: either `Some(value)` or `None()`.
+
+### Constructors
+
+```typescript
+Some<T>(value: T): Option<T>
+None<T>(): Option<T>
+Option.fromNullable<T>(value: T | null | undefined): Option<T>
+```
+
+### Type Checks
+
+```typescript
+option.isSome(): boolean
+option.isNone(): boolean
+```
+
+### Value Extraction
+
+```typescript
+option.unwrap(): T                      // throws if None
+option.expect(msg: string): T           // throws with msg if None
+option.unwrapOr(defaultValue: T): T
+option.unwrapOrElse(f: () => T): T
+```
+
+### Transformation
+
+```typescript
+option.map<U>(f: (value: T) => U): Option<U>
+option.flatMap<U>(f: (value: T) => Option<U>): Option<U>
+option.filter(predicate: (value: T) => boolean): Option<T>
+```
+
+### Combination
+
+```typescript
+option.and<U>(optb: Option<U>): Option<U>        // Some + Some = optb, otherwise None
+option.or(optb: Option<T>): Option<T>             // Some = self, None = optb
+option.orElse(f: () => Option<T>): Option<T>      // Some = self, None = f()
+option.xor(optb: Option<T>): Option<T>            // exactly one Some = that Some
+option.zip<U>(other: Option<U>): Option<[T, U]>   // both Some = Some([a, b])
+```
+
+### Side Effects
+
+```typescript
+option.inspect(f: (value: T) => void): Option<T>  // calls f on Some, returns self
+```
+
+### Pattern Matching
+
+```typescript
+option.match<U>(patterns: { Some: (value: T) => U; None: () => U }): U
+```
+
+### Conversion
+
+```typescript
+option.toUndefined(): T | undefined
+option.toNull(): T | null
+option.toString(): string    // "Some(value)" or "None"
+```
+
+---
+
+## Result<T, E = string>
+
+Represents a computation result: either `Ok(value)` or `Fail(error)`.
+
+### Constructors
+
+```typescript
+Ok<T, E = string>(value: T): Result<T, E>
+Fail<T = never, E = string>(error: E): Result<T, E>
+Result.fromThrowable<T>(f: () => T): Result<T, Error>
+Result.combine<E = string>(results: Result<unknown, E>[]): Result<unknown[], E>
+```
+
+### Type Checks
+
+```typescript
+result.isOk(): boolean
+result.isErr(): boolean
+```
+
+### Value Extraction
+
+```typescript
+result.unwrap(): T                            // throws if Err
+result.unwrapErr(): E                         // throws if Ok
+result.expect(msg: string): T                 // throws with msg if Err
+result.expectErr(msg: string): E              // throws with msg if Ok
+result.unwrapOr(defaultValue: T): T
+result.unwrapOrElse(f: (error: E) => T): T
+```
+
+### Transformation
+
+```typescript
+result.map<U>(f: (value: T) => U): Result<U, E>
+result.mapErr<F>(f: (error: E) => F): Result<T, F>
+result.mapOr<U>(defaultValue: U, f: (value: T) => U): U
+result.mapOrElse<U>(defaultFn: (error: E) => U, f: (value: T) => U): U
+result.flatMap<U>(f: (value: T) => Result<U, E>): Result<U, E>
+```
+
+### Combination
+
+```typescript
+result.and<U>(res: Result<U, E>): Result<U, E>             // Ok + Ok = res, otherwise first Err
+result.or<F>(res: Result<T, F>): Result<T, F>               // Ok = self, Err = res
+result.orElse<F>(f: (error: E) => Result<T, F>): Result<T, F>
+```
+
+### Side Effects
+
+```typescript
+result.inspect(f: (value: T) => void): Result<T, E>        // calls f on Ok
+result.inspectErr(f: (error: E) => void): Result<T, E>     // calls f on Err
+```
+
+### Pattern Matching
+
+```typescript
+result.match<U>(patterns: { Ok: (value: T) => U; Err: (error: E) => U }): U
+```
+
+### Conversion
+
+```typescript
+result.toString(): string    // "Ok(value)" or "Err(error)"
+```
+
+---
+
+## Standalone match()
+
+```typescript
+import { match } from 'ferrum';
+
+// Option overload
+match<T, U>(value: Option<T>, patterns: { Some: (value: T) => U; None: () => U }): U
+
+// Result overload
+match<T, E, U>(value: Result<T, E>, patterns: { Ok: (value: T) => U; Err: (error: E) => U }): U
+```
+
+Delegates to the `.match()` method on the value. Provides a standalone function for those who prefer `match(value, patterns)` over `value.match(patterns)`.
+
+---
+
+## Exports
+
+```typescript
+// index.ts barrel export
+export { match } from './match.js';
+export { None, Option, Some } from './option.js';
+export { Fail, Ok, Result } from './result.js';
+```
+
+All imports come from the package root:
+
+```typescript
+import { Some, None, Ok, Fail, match, Option, Result } from 'ferrum';
+```
+
+---
+
+## Internal Architecture
+
+- `Option<T>` — abstract class with all method signatures
+  - `SomeOption<T>` — internal, holds the value
+  - `NoneOption<T>` — internal, represents absence
+- `Result<T, E>` — abstract class with all method signatures
+  - `OkResult<T, E>` — internal, holds the success value
+  - `ErrResult<T, E>` — internal, holds the error
+
+Internal classes are NOT exported. Use factory functions `Some()`, `None()`, `Ok()`, `Fail()`.
+
+---
+
+## Source
+
+- Repository: https://github.com/axelhamil/ferrum
+- License: MIT
+- Runtime: Node >= 20, ESM only
+- Build: tsdown (ESM, dts, sourcemap, minify)
+- Test: Vitest (112 tests, 100% coverage)
+- Lint: Biome

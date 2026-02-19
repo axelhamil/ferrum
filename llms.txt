@@ -1,0 +1,54 @@
+# Ferrum
+
+> Rust's Option and Result primitives for TypeScript
+
+Ferrum provides type-safe `Option<T>` and `Result<T, E>` types inspired by Rust's standard library. Zero dependencies, ESM only, 100% test coverage.
+
+## Public API
+
+Factory functions:
+- `Some<T>(value: T): Option<T>` — wraps a value
+- `None<T>(): Option<T>` — represents absence
+- `Ok<T, E>(value: T): Result<T, E>` — wraps a success value
+- `Fail<T, E>(error: E): Result<T, E>` — wraps an error value
+- `match(value, patterns)` — standalone pattern matching for Option and Result
+
+Static methods:
+- `Option.fromNullable(value)` — converts nullable to Option
+- `Result.fromThrowable(fn)` — wraps throwing function into Result
+- `Result.combine(results)` — collects Result[] into Result<T[]>
+
+Abstract types (for type annotations):
+- `Option<T>` — abstract class, use `Some()` / `None()` to construct
+- `Result<T, E = string>` — abstract class, use `Ok()` / `Fail()` to construct
+
+## Install
+
+```
+pnpm add ferrum
+```
+
+## Quick Example
+
+```typescript
+import { Some, None, Ok, Fail, match, Option, Result } from 'ferrum';
+
+// Option
+const name = Some('Alice');
+const greeting = name.map(n => `Hello, ${n}`).unwrapOr('Hello, stranger');
+
+// Result
+const parsed = Result.fromThrowable(() => JSON.parse(input));
+const value = parsed.mapErr(e => e.message).unwrapOr({});
+
+// Pattern matching
+match(Ok(42), {
+  Ok: v => console.log(v),
+  Err: e => console.error(e),
+});
+```
+
+## Documentation
+
+- Full docs: https://github.com/axelhamil/ferrum
+- Detailed API: llms-full.txt
