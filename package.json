@@ -1,6 +1,6 @@
 {
   "name": "galvorn",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Rust's Option and Result for TypeScript. Fully typed, tested, zero dependencies.",
   "type": "module",
   "license": "MIT",

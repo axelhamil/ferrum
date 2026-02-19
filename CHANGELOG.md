@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/axelhamil/galvorn/compare/v1.0.4...v1.0.5) (2026-02-19)
+
+
+### Bug Fixes
+
+* upgrade all devDependencies and align exports with tsdown v0.20 ([3c66fe7](https://github.com/axelhamil/galvorn/commit/3c66fe7c10b558dacdc81b408921bd8764c42a1b))
+
 ## [1.0.4](https://github.com/axelhamil/galvorn/compare/v1.0.3...v1.0.4) (2026-02-19)
 
 
