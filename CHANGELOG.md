@@ -1,3 +1,12 @@
+## [1.0.4](https://github.com/axelhamil/galvorn/compare/v1.0.3...v1.0.4) (2026-02-19)
+
+
+### Bug Fixes
+
+* disable hash in tsdown output filenames ([067b978](https://github.com/axelhamil/galvorn/commit/067b97825351a7e24a6a848210e930708133c99d))
+* exclude sourcemaps from npm package ([19be62f](https://github.com/axelhamil/galvorn/commit/19be62f4ea73afbbedde04eee54e411c782e38ce))
+* update package metadata for npm registry ([ca9cd9e](https://github.com/axelhamil/galvorn/commit/ca9cd9e65dcd10e4ff4de10a211d57ca78f3b91f))
+
 ## [1.0.3](https://github.com/axelhamil/galvorn/compare/v1.0.2...v1.0.3) (2026-02-19)
 
 
