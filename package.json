@@ -13,6 +13,18 @@
     "url": "https://github.com/axelhamil/galvorn/issues"
   },
   "homepage": "https://github.com/axelhamil/galvorn#readme",
+  "keywords": [
+    "option",
+    "result",
+    "maybe",
+    "either",
+    "rust",
+    "monad",
+    "pattern-matching",
+    "typescript",
+    "functional",
+    "algebraic-types"
+  ],
   "packageManager": "pnpm@10.26.0",
   "engines": {
     "node": ">=20"
